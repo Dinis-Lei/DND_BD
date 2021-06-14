@@ -40,7 +40,15 @@ Partial Class GameForm
         Me.CheckedListBox2 = New System.Windows.Forms.CheckedListBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.AddCharacter = New System.Windows.Forms.Button()
+        Me.EditCharacter = New System.Windows.Forms.Button()
+        Me.ListBox5 = New System.Windows.Forms.ListBox()
+        Me.CharClasses = New System.Windows.Forms.ListBox()
+        Me.CharLevel = New System.Windows.Forms.TextBox()
+        Me.CharName = New System.Windows.Forms.TextBox()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -64,12 +72,6 @@ Partial Class GameForm
         Me.Label5 = New System.Windows.Forms.Label()
         Me.PlayerName = New System.Windows.Forms.TextBox()
         Me.PlayerID = New System.Windows.Forms.TextBox()
-        Me.CharName = New System.Windows.Forms.TextBox()
-        Me.CharLevel = New System.Windows.Forms.TextBox()
-        Me.CharClasses = New System.Windows.Forms.ListBox()
-        Me.ListBox5 = New System.Windows.Forms.ListBox()
-        Me.EditCharacter = New System.Windows.Forms.Button()
-        Me.AddCharacter = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -77,18 +79,20 @@ Partial Class GameForm
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(677, 421)
+        Me.Button1.Location = New System.Drawing.Point(666, 317)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(94, 29)
+        Me.Button1.Size = New System.Drawing.Size(82, 22)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Add"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(556, 421)
+        Me.Button2.Location = New System.Drawing.Point(578, 317)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(94, 29)
+        Me.Button2.Size = New System.Drawing.Size(82, 22)
         Me.Button2.TabIndex = 1
         Me.Button2.Text = "Edit"
         Me.Button2.UseVisualStyleBackColor = True
@@ -96,83 +100,89 @@ Partial Class GameForm
         'ListBox1
         '
         Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.ItemHeight = 20
-        Me.ListBox1.Location = New System.Drawing.Point(22, 34)
+        Me.ListBox1.ItemHeight = 15
+        Me.ListBox1.Location = New System.Drawing.Point(0, 15)
+        Me.ListBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ListBox1.Name = "ListBox1"
-        Me.ListBox1.Size = New System.Drawing.Size(209, 384)
+        Me.ListBox1.Size = New System.Drawing.Size(204, 319)
         Me.ListBox1.TabIndex = 2
         '
         'ListBox2
         '
         Me.ListBox2.FormattingEnabled = True
-        Me.ListBox2.ItemHeight = 20
-        Me.ListBox2.Location = New System.Drawing.Point(269, 176)
+        Me.ListBox2.ItemHeight = 15
+        Me.ListBox2.Location = New System.Drawing.Point(210, 111)
+        Me.ListBox2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ListBox2.Name = "ListBox2"
-        Me.ListBox2.Size = New System.Drawing.Size(502, 224)
+        Me.ListBox2.Size = New System.Drawing.Size(538, 199)
         Me.ListBox2.TabIndex = 3
         '
         'GameTitle
         '
-        Me.GameTitle.Location = New System.Drawing.Point(269, 49)
+        Me.GameTitle.Location = New System.Drawing.Point(210, 35)
+        Me.GameTitle.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.GameTitle.Name = "GameTitle"
-        Me.GameTitle.Size = New System.Drawing.Size(208, 27)
+        Me.GameTitle.Size = New System.Drawing.Size(338, 23)
         Me.GameTitle.TabIndex = 4
         '
         'DMName
         '
-        Me.DMName.Location = New System.Drawing.Point(531, 49)
+        Me.DMName.Location = New System.Drawing.Point(554, 35)
+        Me.DMName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.DMName.Name = "DMName"
-        Me.DMName.Size = New System.Drawing.Size(240, 27)
+        Me.DMName.Size = New System.Drawing.Size(194, 23)
         Me.DMName.TabIndex = 5
         '
         'StartDate
         '
-        Me.StartDate.Location = New System.Drawing.Point(531, 125)
+        Me.StartDate.Location = New System.Drawing.Point(554, 77)
+        Me.StartDate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.StartDate.Name = "StartDate"
-        Me.StartDate.Size = New System.Drawing.Size(125, 27)
+        Me.StartDate.Size = New System.Drawing.Size(194, 23)
         Me.StartDate.TabIndex = 6
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(269, 14)
+        Me.Label1.Location = New System.Drawing.Point(210, 18)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 20)
+        Me.Label1.Size = New System.Drawing.Size(37, 15)
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "Título"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(529, 14)
+        Me.Label2.Location = New System.Drawing.Point(554, 18)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(119, 20)
+        Me.Label2.Size = New System.Drawing.Size(95, 15)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "Dungeon Master"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(531, 102)
+        Me.Label3.Location = New System.Drawing.Point(554, 60)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(121, 20)
+        Me.Label3.Size = New System.Drawing.Size(95, 15)
         Me.Label3.TabIndex = 9
         Me.Label3.Text = "Data de Começo"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(35, -1)
+        Me.Label4.Location = New System.Drawing.Point(3, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(41, 20)
+        Me.Label4.Size = New System.Drawing.Size(32, 15)
         Me.Label4.TabIndex = 10
         Me.Label4.Text = "Jogo"
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(310, 421)
+        Me.Button3.Location = New System.Drawing.Point(402, 317)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(94, 29)
+        Me.Button3.Size = New System.Drawing.Size(82, 22)
         Me.Button3.TabIndex = 11
         Me.Button3.Text = "Cancel"
         Me.Button3.UseVisualStyleBackColor = True
@@ -180,9 +190,10 @@ Partial Class GameForm
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(432, 421)
+        Me.Button4.Location = New System.Drawing.Point(490, 317)
+        Me.Button4.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(94, 29)
+        Me.Button4.Size = New System.Drawing.Size(82, 22)
         Me.Button4.TabIndex = 12
         Me.Button4.Text = "Confirm"
         Me.Button4.UseVisualStyleBackColor = True
@@ -191,18 +202,20 @@ Partial Class GameForm
         'CheckedListBox1
         '
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(22, 34)
+        Me.CheckedListBox1.Location = New System.Drawing.Point(0, 15)
+        Me.CheckedListBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(209, 378)
+        Me.CheckedListBox1.Size = New System.Drawing.Size(204, 328)
         Me.CheckedListBox1.TabIndex = 13
         Me.CheckedListBox1.Visible = False
         '
         'CheckedListBox2
         '
         Me.CheckedListBox2.FormattingEnabled = True
-        Me.CheckedListBox2.Location = New System.Drawing.Point(269, 176)
+        Me.CheckedListBox2.Location = New System.Drawing.Point(210, 111)
+        Me.CheckedListBox2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CheckedListBox2.Name = "CheckedListBox2"
-        Me.CheckedListBox2.Size = New System.Drawing.Size(502, 224)
+        Me.CheckedListBox2.Size = New System.Drawing.Size(538, 202)
         Me.CheckedListBox2.TabIndex = 14
         Me.CheckedListBox2.Visible = False
         '
@@ -211,13 +224,16 @@ Partial Class GameForm
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Location = New System.Drawing.Point(-1, 2)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(876, 503)
+        Me.TabControl1.Size = New System.Drawing.Size(766, 377)
         Me.TabControl1.TabIndex = 15
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Label14)
+        Me.TabPage1.Controls.Add(Me.Label13)
         Me.TabPage1.Controls.Add(Me.Button1)
         Me.TabPage1.Controls.Add(Me.Label3)
         Me.TabPage1.Controls.Add(Me.Label4)
@@ -233,13 +249,33 @@ Partial Class GameForm
         Me.TabPage1.Controls.Add(Me.ListBox2)
         Me.TabPage1.Controls.Add(Me.GameTitle)
         Me.TabPage1.Controls.Add(Me.DMName)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 29)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(868, 470)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.TabPage1.Size = New System.Drawing.Size(758, 349)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(-1, 0)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(95, 15)
+        Me.Label14.TabIndex = 16
+        Me.Label14.Text = "Dungeon Master"
+        Me.Label14.Visible = False
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(210, 92)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(60, 15)
+        Me.Label13.TabIndex = 15
+        Me.Label13.Text = "Jogadores"
         '
         'TabPage2
         '
@@ -272,249 +308,272 @@ Partial Class GameForm
         Me.TabPage2.Controls.Add(Me.Label5)
         Me.TabPage2.Controls.Add(Me.PlayerName)
         Me.TabPage2.Controls.Add(Me.PlayerID)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 29)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 24)
+        Me.TabPage2.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(868, 470)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.TabPage2.Size = New System.Drawing.Size(758, 349)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'AddCharacter
+        '
+        Me.AddCharacter.Location = New System.Drawing.Point(619, 320)
+        Me.AddCharacter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.AddCharacter.Name = "AddCharacter"
+        Me.AddCharacter.Size = New System.Drawing.Size(82, 22)
+        Me.AddCharacter.TabIndex = 28
+        Me.AddCharacter.Text = "Button6"
+        Me.AddCharacter.UseVisualStyleBackColor = True
+        '
+        'EditCharacter
+        '
+        Me.EditCharacter.Location = New System.Drawing.Point(489, 320)
+        Me.EditCharacter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.EditCharacter.Name = "EditCharacter"
+        Me.EditCharacter.Size = New System.Drawing.Size(82, 22)
+        Me.EditCharacter.TabIndex = 27
+        Me.EditCharacter.Text = "Button5"
+        Me.EditCharacter.UseVisualStyleBackColor = True
+        '
+        'ListBox5
+        '
+        Me.ListBox5.FormattingEnabled = True
+        Me.ListBox5.ItemHeight = 15
+        Me.ListBox5.Location = New System.Drawing.Point(520, 101)
+        Me.ListBox5.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.ListBox5.Name = "ListBox5"
+        Me.ListBox5.Size = New System.Drawing.Size(198, 184)
+        Me.ListBox5.TabIndex = 26
+        '
+        'CharClasses
+        '
+        Me.CharClasses.FormattingEnabled = True
+        Me.CharClasses.ItemHeight = 15
+        Me.CharClasses.Location = New System.Drawing.Point(552, 24)
+        Me.CharClasses.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.CharClasses.Name = "CharClasses"
+        Me.CharClasses.Size = New System.Drawing.Size(198, 49)
+        Me.CharClasses.TabIndex = 25
+        '
+        'CharLevel
+        '
+        Me.CharLevel.Location = New System.Drawing.Point(500, 24)
+        Me.CharLevel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.CharLevel.Name = "CharLevel"
+        Me.CharLevel.Size = New System.Drawing.Size(30, 23)
+        Me.CharLevel.TabIndex = 24
+        '
+        'CharName
+        '
+        Me.CharName.Location = New System.Drawing.Point(308, 24)
+        Me.CharName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.CharName.Name = "CharName"
+        Me.CharName.Size = New System.Drawing.Size(168, 23)
+        Me.CharName.TabIndex = 23
+        '
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(418, 337)
+        Me.Label12.Location = New System.Drawing.Point(366, 253)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(34, 20)
+        Me.Label12.Size = New System.Drawing.Size(28, 15)
         Me.Label12.TabIndex = 22
         Me.Label12.Text = "Cha"
         '
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(418, 304)
+        Me.Label11.Location = New System.Drawing.Point(366, 228)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(33, 20)
+        Me.Label11.Size = New System.Drawing.Size(26, 15)
         Me.Label11.TabIndex = 21
         Me.Label11.Text = "Wis"
         '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(418, 271)
+        Me.Label10.Location = New System.Drawing.Point(366, 203)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(26, 20)
+        Me.Label10.Size = New System.Drawing.Size(21, 15)
         Me.Label10.TabIndex = 20
         Me.Label10.Text = "Int"
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(418, 238)
+        Me.Label9.Location = New System.Drawing.Point(366, 178)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(35, 20)
+        Me.Label9.Size = New System.Drawing.Size(29, 15)
         Me.Label9.TabIndex = 19
         Me.Label9.Text = "Con"
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(418, 205)
+        Me.Label8.Location = New System.Drawing.Point(366, 154)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(35, 20)
+        Me.Label8.Size = New System.Drawing.Size(27, 15)
         Me.Label8.TabIndex = 18
         Me.Label8.Text = "Dex"
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(418, 172)
+        Me.Label7.Location = New System.Drawing.Point(366, 129)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(27, 20)
+        Me.Label7.Size = New System.Drawing.Size(21, 15)
         Me.Label7.TabIndex = 17
         Me.Label7.Text = "Str"
         '
         'ChaMod
         '
-        Me.ChaMod.Location = New System.Drawing.Point(503, 330)
+        Me.ChaMod.Location = New System.Drawing.Point(440, 248)
+        Me.ChaMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ChaMod.Name = "ChaMod"
-        Me.ChaMod.Size = New System.Drawing.Size(31, 27)
+        Me.ChaMod.Size = New System.Drawing.Size(28, 23)
         Me.ChaMod.TabIndex = 16
         '
         'WisMod
         '
-        Me.WisMod.Location = New System.Drawing.Point(503, 297)
+        Me.WisMod.Location = New System.Drawing.Point(440, 223)
+        Me.WisMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.WisMod.Name = "WisMod"
-        Me.WisMod.Size = New System.Drawing.Size(31, 27)
+        Me.WisMod.Size = New System.Drawing.Size(28, 23)
         Me.WisMod.TabIndex = 15
         '
         'intMod
         '
-        Me.intMod.Location = New System.Drawing.Point(503, 264)
+        Me.intMod.Location = New System.Drawing.Point(440, 198)
+        Me.intMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.intMod.Name = "intMod"
-        Me.intMod.Size = New System.Drawing.Size(31, 27)
+        Me.intMod.Size = New System.Drawing.Size(28, 23)
         Me.intMod.TabIndex = 14
         '
         'ConMod
         '
-        Me.ConMod.Location = New System.Drawing.Point(503, 231)
+        Me.ConMod.Location = New System.Drawing.Point(440, 173)
+        Me.ConMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.ConMod.Name = "ConMod"
-        Me.ConMod.Size = New System.Drawing.Size(31, 27)
+        Me.ConMod.Size = New System.Drawing.Size(28, 23)
         Me.ConMod.TabIndex = 13
         '
         'DexMod
         '
-        Me.DexMod.Location = New System.Drawing.Point(503, 198)
+        Me.DexMod.Location = New System.Drawing.Point(440, 148)
+        Me.DexMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.DexMod.Name = "DexMod"
-        Me.DexMod.Size = New System.Drawing.Size(31, 27)
+        Me.DexMod.Size = New System.Drawing.Size(28, 23)
         Me.DexMod.TabIndex = 12
         '
         'StrMod
         '
-        Me.StrMod.Location = New System.Drawing.Point(503, 165)
+        Me.StrMod.Location = New System.Drawing.Point(440, 124)
+        Me.StrMod.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.StrMod.Name = "StrMod"
-        Me.StrMod.Size = New System.Drawing.Size(31, 27)
+        Me.StrMod.Size = New System.Drawing.Size(28, 23)
         Me.StrMod.TabIndex = 11
         '
         'CharCha
         '
-        Me.CharCha.Location = New System.Drawing.Point(463, 330)
+        Me.CharCha.Location = New System.Drawing.Point(405, 248)
+        Me.CharCha.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharCha.Name = "CharCha"
-        Me.CharCha.Size = New System.Drawing.Size(31, 27)
+        Me.CharCha.Size = New System.Drawing.Size(28, 23)
         Me.CharCha.TabIndex = 10
         '
         'CharWis
         '
-        Me.CharWis.Location = New System.Drawing.Point(463, 297)
+        Me.CharWis.Location = New System.Drawing.Point(405, 223)
+        Me.CharWis.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharWis.Name = "CharWis"
-        Me.CharWis.Size = New System.Drawing.Size(31, 27)
+        Me.CharWis.Size = New System.Drawing.Size(28, 23)
         Me.CharWis.TabIndex = 9
         '
         'CharInt
         '
-        Me.CharInt.Location = New System.Drawing.Point(463, 264)
+        Me.CharInt.Location = New System.Drawing.Point(405, 198)
+        Me.CharInt.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharInt.Name = "CharInt"
-        Me.CharInt.Size = New System.Drawing.Size(31, 27)
+        Me.CharInt.Size = New System.Drawing.Size(28, 23)
         Me.CharInt.TabIndex = 8
         '
         'CharCon
         '
-        Me.CharCon.Location = New System.Drawing.Point(463, 231)
+        Me.CharCon.Location = New System.Drawing.Point(405, 173)
+        Me.CharCon.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharCon.Name = "CharCon"
-        Me.CharCon.Size = New System.Drawing.Size(31, 27)
+        Me.CharCon.Size = New System.Drawing.Size(28, 23)
         Me.CharCon.TabIndex = 7
         '
         'CharDex
         '
-        Me.CharDex.Location = New System.Drawing.Point(463, 198)
+        Me.CharDex.Location = New System.Drawing.Point(405, 148)
+        Me.CharDex.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharDex.Name = "CharDex"
-        Me.CharDex.Size = New System.Drawing.Size(31, 27)
+        Me.CharDex.Size = New System.Drawing.Size(28, 23)
         Me.CharDex.TabIndex = 6
         '
         'CharStr
         '
-        Me.CharStr.Location = New System.Drawing.Point(463, 165)
+        Me.CharStr.Location = New System.Drawing.Point(405, 124)
+        Me.CharStr.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CharStr.Name = "CharStr"
-        Me.CharStr.Size = New System.Drawing.Size(31, 27)
+        Me.CharStr.Size = New System.Drawing.Size(28, 23)
         Me.CharStr.TabIndex = 5
         '
         'PlayerCharacters
         '
         Me.PlayerCharacters.FormattingEnabled = True
-        Me.PlayerCharacters.ItemHeight = 20
-        Me.PlayerCharacters.Location = New System.Drawing.Point(38, 89)
+        Me.PlayerCharacters.ItemHeight = 15
+        Me.PlayerCharacters.Location = New System.Drawing.Point(33, 67)
+        Me.PlayerCharacters.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.PlayerCharacters.Name = "PlayerCharacters"
-        Me.PlayerCharacters.Size = New System.Drawing.Size(256, 324)
+        Me.PlayerCharacters.Size = New System.Drawing.Size(224, 244)
         Me.PlayerCharacters.TabIndex = 4
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(102, 9)
+        Me.Label6.Location = New System.Drawing.Point(89, 7)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(49, 20)
+        Me.Label6.Size = New System.Drawing.Size(39, 15)
         Me.Label6.TabIndex = 3
         Me.Label6.Text = "Name"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(38, 9)
+        Me.Label5.Location = New System.Drawing.Point(33, 7)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(24, 20)
+        Me.Label5.Size = New System.Drawing.Size(18, 15)
         Me.Label5.TabIndex = 2
         Me.Label5.Text = "ID"
         '
         'PlayerName
         '
-        Me.PlayerName.Location = New System.Drawing.Point(102, 32)
+        Me.PlayerName.Location = New System.Drawing.Point(89, 24)
+        Me.PlayerName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.PlayerName.Name = "PlayerName"
-        Me.PlayerName.Size = New System.Drawing.Size(192, 27)
+        Me.PlayerName.Size = New System.Drawing.Size(168, 23)
         Me.PlayerName.TabIndex = 1
         '
         'PlayerID
         '
-        Me.PlayerID.Location = New System.Drawing.Point(38, 32)
+        Me.PlayerID.Location = New System.Drawing.Point(33, 24)
+        Me.PlayerID.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.PlayerID.Name = "PlayerID"
-        Me.PlayerID.Size = New System.Drawing.Size(34, 27)
+        Me.PlayerID.Size = New System.Drawing.Size(30, 23)
         Me.PlayerID.TabIndex = 0
-        '
-        'CharName
-        '
-        Me.CharName.Location = New System.Drawing.Point(352, 32)
-        Me.CharName.Name = "CharName"
-        Me.CharName.Size = New System.Drawing.Size(192, 27)
-        Me.CharName.TabIndex = 23
-        '
-        'CharLevel
-        '
-        Me.CharLevel.Location = New System.Drawing.Point(571, 32)
-        Me.CharLevel.Name = "CharLevel"
-        Me.CharLevel.Size = New System.Drawing.Size(34, 27)
-        Me.CharLevel.TabIndex = 24
-        '
-        'CharClasses
-        '
-        Me.CharClasses.FormattingEnabled = True
-        Me.CharClasses.ItemHeight = 20
-        Me.CharClasses.Location = New System.Drawing.Point(631, 32)
-        Me.CharClasses.Name = "CharClasses"
-        Me.CharClasses.Size = New System.Drawing.Size(226, 64)
-        Me.CharClasses.TabIndex = 25
-        '
-        'ListBox5
-        '
-        Me.ListBox5.FormattingEnabled = True
-        Me.ListBox5.ItemHeight = 20
-        Me.ListBox5.Location = New System.Drawing.Point(594, 135)
-        Me.ListBox5.Name = "ListBox5"
-        Me.ListBox5.Size = New System.Drawing.Size(226, 244)
-        Me.ListBox5.TabIndex = 26
-        '
-        'EditCharacter
-        '
-        Me.EditCharacter.Location = New System.Drawing.Point(559, 426)
-        Me.EditCharacter.Name = "EditCharacter"
-        Me.EditCharacter.Size = New System.Drawing.Size(94, 29)
-        Me.EditCharacter.TabIndex = 27
-        Me.EditCharacter.Text = "Button5"
-        Me.EditCharacter.UseVisualStyleBackColor = True
-        '
-        'AddCharacter
-        '
-        Me.AddCharacter.Location = New System.Drawing.Point(707, 426)
-        Me.AddCharacter.Name = "AddCharacter"
-        Me.AddCharacter.Size = New System.Drawing.Size(94, 29)
-        Me.AddCharacter.TabIndex = 28
-        Me.AddCharacter.Text = "Button6"
-        Me.AddCharacter.UseVisualStyleBackColor = True
         '
         'GameForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(872, 502)
+        Me.ClientSize = New System.Drawing.Size(763, 376)
         Me.Controls.Add(Me.TabControl1)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.Name = "GameForm"
         Me.Text = "Cancel"
         Me.TabControl1.ResumeLayout(False)
@@ -577,4 +636,6 @@ Partial Class GameForm
     Friend WithEvents DexMod As TextBox
     Friend WithEvents JogadorID As TextBox
     Friend WithEvents PlayerName As TextBox
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Label14 As Label
 End Class

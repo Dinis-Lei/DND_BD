@@ -17,7 +17,6 @@ Public Class GameForm
 
     End Sub
 
-
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
         If ListBox1.SelectedIndex > -1 Then
             currentGame = ListBox1.SelectedIndex
@@ -25,11 +24,11 @@ Public Class GameForm
         End If
     End Sub
 
-
-
-
-
     Private Sub Form1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        GameTitle.ReadOnly = True
+        DMName.ReadOnly = True
+        StartDate.ReadOnly = True
+        Label14.Visible = False
         '' Change this line for our database
         CN = New SqlConnection("Server = tcp:mednat.ieeta.pt\SQLSERVER,8101; Database =  p4g5 ; UID = p4g5; PWD =  ola123adeus321LEI")
 
@@ -57,7 +56,6 @@ Public Class GameForm
         currentGame = 0
         ShowGame()
 
-
         CMD.CommandText = "SELECT * FROM dbo.DND_Participante"
         CMD.CommandType = CommandType.Text
         CN.Open()
@@ -72,9 +70,6 @@ Public Class GameForm
             CheckedListBox2.Items.Add(part)
         End While
         CN.Close()
-
-
-
     End Sub
 
     Sub ShowGame()
@@ -92,7 +87,6 @@ Public Class GameForm
         CMD.CommandType = CommandType.StoredProcedure
         CMD.Parameters.Add("@idJogo", SqlDbType.Int).Value = Convert.ToInt32(game.GameID)
         CMD.Parameters.Add("@idDM", SqlDbType.Int).Value = Convert.ToInt32(game.idDM)
-
 
         CMD.Parameters.Add("@DMName", SqlDbType.VarChar, 30)
         CMD.Parameters("@DMName").Direction = ParameterDirection.Output
@@ -124,32 +118,72 @@ Public Class GameForm
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         adding = True
-        ClearFields()
-        ShowButtons()
-        ListBox1.Enabled = False
+        EnableAddInterface()
+        'ClearFields()
+        'ShowButtons()
+        'UnlockControls()
+        'ListBox1.Enabled = False
     End Sub
 
-    Sub ClearFields()
+    'Sub ClearFields()
+    '    GameTitle.Text = ""
+    '    DMName.Text = ""
+    '    StartDate.Text = ""
+    '    ListBox2.Items.Clear()
+
+    'End Sub
+
+    'Sub ShowButtons()
+    '    Button3.Visible = True
+    '    Button4.Visible = True
+    '    CheckedListBox1.Visible = True
+    '    CheckedListBox2.Visible = True
+    '    ListBox1.Visible = False
+    '    ListBox2.Visible = False
+
+    'End Sub
+
+    'Sub UnlockControls()
+    '    GameTitle.ReadOnly = False
+    'End Sub
+
+    Sub EnableAddInterface()
         GameTitle.Text = ""
         DMName.Text = ""
-        StartDate.Text = ""
-        ListBox2.Items.Clear()
-
-    End Sub
-
-    Sub ShowButtons()
+        StartDate.Text = Format(Today, "short Date")
+        'ListBox2.Items.Clear()
         Button3.Visible = True
         Button4.Visible = True
         CheckedListBox1.Visible = True
         CheckedListBox2.Visible = True
         ListBox1.Visible = False
         ListBox2.Visible = False
-
+        Label14.Visible = True
+        Label4.Visible = False
+        GameTitle.ReadOnly = False
     End Sub
 
-    Sub UnlockControls()
-        GameTitle.ReadOnly = False
-        GameTitle.ReadOnly = False
+    Sub EnableReadInterface()
+        GameTitle.Text = ""
+        DMName.Text = ""
+        StartDate.Text = ""
+        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+            CheckedListBox1.SetItemChecked(i, False)
+        Next
+        For i As Integer = 0 To CheckedListBox2.Items.Count - 1
+            CheckedListBox2.SetItemChecked(i, False)
+        Next
+        Button3.Visible = False
+        Button4.Visible = False
+        CheckedListBox1.Visible = False
+        CheckedListBox2.Visible = False
+        ListBox1.Visible = True
+        ListBox2.Visible = True
+        Label14.Visible = False
+        Label4.Visible = True
+        GameTitle.ReadOnly = True
+        ShowGame()
+        'ListBox1.Enabled = True
     End Sub
 
     Private Sub CheckedListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox2.SelectedIndexChanged
@@ -169,7 +203,28 @@ Public Class GameForm
     End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        adding = False
+        EnableReadInterface()
+    End Sub
 
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim item As String = e.ToString
+        Dim index As Integer = CheckedListBox2.FindString(item)
+        If CheckedListBox2.CheckedItems.Count > 6 Then
+            'Error msg
+        Else
+            'Add to the DB
+        End If
+    End Sub
+
+    Private Sub CheckedListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedIndexChanged
+        Dim item As String = e.ToString
+        Dim index As Integer = CheckedListBox1.FindString(item)
+        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+            If index <> i Then
+                CheckedListBox1.SetItemChecked(i, False)
+            End If
+        Next
     End Sub
 End Class
 
