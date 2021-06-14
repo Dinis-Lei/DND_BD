@@ -202,7 +202,7 @@ Partial Class GameForm
         'CheckedListBox1
         '
         Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(0, 15)
+        Me.CheckedListBox1.Location = New System.Drawing.Point(3, 15)
         Me.CheckedListBox1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.CheckedListBox1.Name = "CheckedListBox1"
         Me.CheckedListBox1.Size = New System.Drawing.Size(204, 328)

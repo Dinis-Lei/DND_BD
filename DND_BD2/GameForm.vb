@@ -161,6 +161,7 @@ Public Class GameForm
         Label14.Visible = True
         Label4.Visible = False
         GameTitle.ReadOnly = False
+        StartDate.ReadOnly = False
     End Sub
 
     Sub EnableReadInterface()
