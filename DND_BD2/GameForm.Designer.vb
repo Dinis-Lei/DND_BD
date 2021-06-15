@@ -36,7 +36,6 @@ Partial Class GameForm
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.CheckedListBox2 = New System.Windows.Forms.CheckedListBox()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -73,14 +72,15 @@ Partial Class GameForm
         Me.PlayerName = New System.Windows.Forms.TextBox()
         Me.PlayerID = New System.Windows.Forms.TextBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
-        Me.Button5 = New System.Windows.Forms.Button()
-        Me.ListBox3 = New System.Windows.Forms.ListBox()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label16 = New System.Windows.Forms.Label()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.ListBox3 = New System.Windows.Forms.ListBox()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.ListBox4 = New System.Windows.Forms.ListBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -200,15 +200,6 @@ Partial Class GameForm
         Me.Button4.UseVisualStyleBackColor = True
         Me.Button4.Visible = False
         '
-        'CheckedListBox1
-        '
-        Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(3, 20)
-        Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(233, 422)
-        Me.CheckedListBox1.TabIndex = 13
-        Me.CheckedListBox1.Visible = False
-        '
         'CheckedListBox2
         '
         Me.CheckedListBox2.FormattingEnabled = True
@@ -231,13 +222,13 @@ Partial Class GameForm
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.ListBox4)
         Me.TabPage1.Controls.Add(Me.Label14)
         Me.TabPage1.Controls.Add(Me.Label13)
         Me.TabPage1.Controls.Add(Me.Button1)
         Me.TabPage1.Controls.Add(Me.Label3)
         Me.TabPage1.Controls.Add(Me.Label4)
         Me.TabPage1.Controls.Add(Me.StartDate)
-        Me.TabPage1.Controls.Add(Me.CheckedListBox1)
         Me.TabPage1.Controls.Add(Me.CheckedListBox2)
         Me.TabPage1.Controls.Add(Me.Button4)
         Me.TabPage1.Controls.Add(Me.ListBox1)
@@ -250,7 +241,7 @@ Partial Class GameForm
         Me.TabPage1.Controls.Add(Me.DMName)
         Me.TabPage1.Location = New System.Drawing.Point(4, 29)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(867, 470)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "TabPage1"
@@ -308,7 +299,7 @@ Partial Class GameForm
         Me.TabPage2.Controls.Add(Me.PlayerID)
         Me.TabPage2.Location = New System.Drawing.Point(4, 29)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(867, 470)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "TabPage2"
@@ -561,53 +552,12 @@ Partial Class GameForm
         Me.TabPage3.Text = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
-        'TextBox1
+        'TextBox4
         '
-        Me.TextBox1.Location = New System.Drawing.Point(92, 47)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(337, 27)
-        Me.TextBox1.TabIndex = 0
-        '
-        'TextBox2
-        '
-        Me.TextBox2.Location = New System.Drawing.Point(479, 47)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(131, 27)
-        Me.TextBox2.TabIndex = 1
-        '
-        'TextBox3
-        '
-        Me.TextBox3.Location = New System.Drawing.Point(639, 47)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(37, 27)
-        Me.TextBox3.TabIndex = 2
-        '
-        'Button5
-        '
-        Me.Button5.Location = New System.Drawing.Point(676, 122)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(94, 29)
-        Me.Button5.TabIndex = 3
-        Me.Button5.Text = "Button5"
-        Me.Button5.UseVisualStyleBackColor = True
-        '
-        'ListBox3
-        '
-        Me.ListBox3.FormattingEnabled = True
-        Me.ListBox3.ItemHeight = 20
-        Me.ListBox3.Location = New System.Drawing.Point(92, 215)
-        Me.ListBox3.Name = "ListBox3"
-        Me.ListBox3.Size = New System.Drawing.Size(678, 104)
-        Me.ListBox3.TabIndex = 4
-        '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(92, 16)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(61, 20)
-        Me.Label15.TabIndex = 5
-        Me.Label15.Text = "Label15"
+        Me.TextBox4.Location = New System.Drawing.Point(733, 47)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(37, 27)
+        Me.TextBox4.TabIndex = 7
         '
         'Label16
         '
@@ -618,12 +568,62 @@ Partial Class GameForm
         Me.Label16.TabIndex = 6
         Me.Label16.Text = "Label16"
         '
-        'TextBox4
+        'Label15
         '
-        Me.TextBox4.Location = New System.Drawing.Point(733, 47)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(37, 27)
-        Me.TextBox4.TabIndex = 7
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(92, 16)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(61, 20)
+        Me.Label15.TabIndex = 5
+        Me.Label15.Text = "Label15"
+        '
+        'ListBox3
+        '
+        Me.ListBox3.FormattingEnabled = True
+        Me.ListBox3.ItemHeight = 20
+        Me.ListBox3.Location = New System.Drawing.Point(92, 215)
+        Me.ListBox3.Name = "ListBox3"
+        Me.ListBox3.Size = New System.Drawing.Size(678, 104)
+        Me.ListBox3.TabIndex = 4
+        '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(676, 122)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(94, 29)
+        Me.Button5.TabIndex = 3
+        Me.Button5.Text = "Button5"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(639, 47)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(37, 27)
+        Me.TextBox3.TabIndex = 2
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(479, 47)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(131, 27)
+        Me.TextBox2.TabIndex = 1
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(92, 47)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(337, 27)
+        Me.TextBox1.TabIndex = 0
+        '
+        'ListBox4
+        '
+        Me.ListBox4.FormattingEnabled = True
+        Me.ListBox4.ItemHeight = 20
+        Me.ListBox4.Location = New System.Drawing.Point(0, 20)
+        Me.ListBox4.Name = "ListBox4"
+        Me.ListBox4.Size = New System.Drawing.Size(233, 424)
+        Me.ListBox4.TabIndex = 17
         '
         'GameForm
         '
@@ -658,7 +658,6 @@ Partial Class GameForm
     Friend WithEvents Button3 As Button
     Friend WithEvents Button4 As Button
     Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents CheckedListBox1 As CheckedListBox
     Friend WithEvents CheckedListBox2 As CheckedListBox
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
@@ -706,4 +705,5 @@ Partial Class GameForm
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents ListBox4 As ListBox
 End Class

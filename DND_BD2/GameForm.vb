@@ -7,6 +7,7 @@ Public Class GameForm
     Dim CN As SqlConnection
     Dim CMD As SqlCommand
     Dim currentGame As Integer
+    Dim currentDM As Integer
     Dim adding As Boolean = False
 
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
@@ -29,6 +30,7 @@ Public Class GameForm
         DMName.ReadOnly = True
         StartDate.ReadOnly = True
         Label14.Visible = False
+        ListBox4.Visible = False
         '' Change this line for our database
         CN = New SqlConnection("Server = tcp:mednat.ieeta.pt\SQLSERVER,8101; Database =  p4g5 ; UID = p4g5; PWD =  ola123adeus321LEI")
 
@@ -60,16 +62,18 @@ Public Class GameForm
         CMD.CommandType = CommandType.Text
         CN.Open()
         RDR = CMD.ExecuteReader
-        CheckedListBox1.Items.Clear()
+        ListBox4.Items.Clear()
         CheckedListBox2.Items.Clear()
         While RDR.Read
             Dim part As New Participante
             part.ID = RDR.Item("idParticipante")
             part.Name = RDR.Item("nomeParticipante")
-            CheckedListBox1.Items.Add(part)
+            ListBox4.Items.Add(part)
             CheckedListBox2.Items.Add(part)
         End While
         CN.Close()
+        RDR.Close()
+        currentDM = 0
     End Sub
 
     Sub ShowGame()
@@ -119,33 +123,8 @@ Public Class GameForm
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         adding = True
         EnableAddInterface()
-        'ClearFields()
-        'ShowButtons()
-        'UnlockControls()
-        'ListBox1.Enabled = False
     End Sub
 
-    'Sub ClearFields()
-    '    GameTitle.Text = ""
-    '    DMName.Text = ""
-    '    StartDate.Text = ""
-    '    ListBox2.Items.Clear()
-
-    'End Sub
-
-    'Sub ShowButtons()
-    '    Button3.Visible = True
-    '    Button4.Visible = True
-    '    CheckedListBox1.Visible = True
-    '    CheckedListBox2.Visible = True
-    '    ListBox1.Visible = False
-    '    ListBox2.Visible = False
-
-    'End Sub
-
-    'Sub UnlockControls()
-    '    GameTitle.ReadOnly = False
-    'End Sub
 
     Sub EnableAddInterface()
         GameTitle.Text = ""
@@ -154,29 +133,25 @@ Public Class GameForm
         'ListBox2.Items.Clear()
         Button3.Visible = True
         Button4.Visible = True
-        CheckedListBox1.Visible = True
+        ListBox4.Visible = True
         CheckedListBox2.Visible = True
         ListBox1.Visible = False
         ListBox2.Visible = False
         Label14.Visible = True
         Label4.Visible = False
         GameTitle.ReadOnly = False
-        StartDate.ReadOnly = False
     End Sub
 
     Sub EnableReadInterface()
         GameTitle.Text = ""
         DMName.Text = ""
         StartDate.Text = ""
-        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
-            CheckedListBox1.SetItemChecked(i, False)
-        Next
         For i As Integer = 0 To CheckedListBox2.Items.Count - 1
             CheckedListBox2.SetItemChecked(i, False)
         Next
         Button3.Visible = False
         Button4.Visible = False
-        CheckedListBox1.Visible = False
+        ListBox4.Visible = False
         CheckedListBox2.Visible = False
         ListBox1.Visible = True
         ListBox2.Visible = True
@@ -209,11 +184,8 @@ Public Class GameForm
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-
-
-
         If CheckedListBox2.CheckedItems.Count > 6 Then
-            'Error msg
+            MsgBox("You cannot add more than 6 players to a game!")
         Else
             SaveGame()
         End If
@@ -225,28 +197,32 @@ Public Class GameForm
             game.GameID = 0
             game.GameName = GameTitle.Text
             game.StartDate = StartDate.Text
-            game.idDM = CheckedListBox1.CheckedItems.Item(0).ID.ToString
+            game.idDM = DMName.Text
 
         Catch ex As Exception
             MsgBox(ex.Message)
             Return False
         End Try
 
-        'aaaa
-        Button3.Visible = False
-        Button4.Visible = False
-        CheckedListBox1.Visible = False
-        CheckedListBox2.Visible = False
-        ListBox1.Visible = True
-        ListBox2.Visible = True
-        ListBox1.Enabled = True
-        'aaaa
+        EnableReadInterface()
+
+        ''aaaa
+        'Button3.Visible = False
+        'Button4.Visible = False
+        'ListBox4.Visible = False
+        'CheckedListBox2.Visible = False
+        'ListBox1.Visible = True
+        'ListBox2.Visible = True
+        'ListBox1.Enabled = True
+        ''aaaa
 
         If adding Then
             SubmitGame(game)
             ListBox1.Items.Add(game)
             adding = False
-
+            For Each part As Participante In CheckedListBox2.CheckedItems
+                SubmitPlayerToGame(game, part)
+            Next
         Else
             'UpdateContact(contact)
             'ListBox1.Items(currentContact) = contact
@@ -255,8 +231,10 @@ Public Class GameForm
     End Function
 
     Private Sub SubmitGame(ByVal G As Game)
-        CMD.CommandText = "INSERT DND_Jogo (idDM, dataComeco, titulo) " &
-                          "VALUES (@idDM, @dataComeco, @titulo) "
+        CMD.CommandText = "insertGame"
+        CMD.CommandType = CommandType.StoredProcedure
+        'CMD.CommandText = "INSERT DND_Jogo (idDM, dataComeco, titulo) " &
+        '"VALUES (@idDM, @dataComeco, @titulo) "
         CMD.Parameters.Clear()
         CMD.Parameters.Add("@idDM", SqlDbType.Int).Value = Convert.ToInt32(G.idDM)
         CMD.Parameters.Add("@dataComeco", SqlDbType.Date).Value = Convert.ToDateTime(G.StartDate)
@@ -283,17 +261,45 @@ Public Class GameForm
         CN.Close()
     End Sub
 
+    Private Sub SubmitPlayerToGame(ByVal G As Game, ByVal P As Participante)
+        CMD.CommandText = "addPlayerToGame"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@idGame", SqlDbType.Int).Value = Convert.ToInt32(G.GameID)
+        CMD.Parameters.Add("@idPlayer", SqlDbType.Date).Value = Convert.ToInt32(P.ID)
 
-
-
-    Private Sub CheckedListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedIndexChanged
-        Dim item As String = e.ToString
-        Dim index As Integer = CheckedListBox1.FindString(item)
-        For i As Integer = 0 To CheckedListBox1.Items.Count - 1
-            If index <> i Then
-                CheckedListBox1.SetItemChecked(i, False)
-            End If
-        Next
+        CN.Open()
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to update game in database. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+        CN.Close()
     End Sub
+
+    Private Sub ListBox4_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox4.SelectedIndexChanged
+        If ListBox4.SelectedIndex > -1 Then
+            currentDM = ListBox4.SelectedItem.ID
+            DMName.Text = currentDM.ToString()
+            'Debug.Print(currentDM)
+        End If
+    End Sub
+
+
+
+
+
+
+    'Private Sub CheckedListBox1_SelectedIndexChanged(sender As Object, e As EventArgs)
+    '    Dim item As String = e.ToString
+    '    Dim index As Integer = CheckedListBox1.FindString(item)
+    '    For i As Integer = 0 To CheckedListBox1.Items.Count - 1
+    '        If index <> i Then
+    '            CheckedListBox1.SetItemChecked(i, False)
+    '        End If
+    '    Next
+    'End Sub
 End Class
 
