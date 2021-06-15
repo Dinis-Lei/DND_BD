@@ -209,14 +209,82 @@ Public Class GameForm
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Dim item As String = e.ToString
-        Dim index As Integer = CheckedListBox2.FindString(item)
+
+
+
         If CheckedListBox2.CheckedItems.Count > 6 Then
             'Error msg
         Else
-            'Add to the DB
+            SaveGame()
         End If
     End Sub
+
+    Private Function SaveGame()
+        Dim game As New Game
+        Try
+            game.GameID = 0
+            game.GameName = GameTitle.Text
+            game.StartDate = StartDate.Text
+            game.idDM = CheckedListBox1.CheckedItems.Item(0).ID.ToString
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return False
+        End Try
+
+        'aaaa
+        Button3.Visible = False
+        Button4.Visible = False
+        CheckedListBox1.Visible = False
+        CheckedListBox2.Visible = False
+        ListBox1.Visible = True
+        ListBox2.Visible = True
+        ListBox1.Enabled = True
+        'aaaa
+
+        If adding Then
+            SubmitGame(game)
+            ListBox1.Items.Add(game)
+            adding = False
+
+        Else
+            'UpdateContact(contact)
+            'ListBox1.Items(currentContact) = contact
+        End If
+        Return True
+    End Function
+
+    Private Sub SubmitGame(ByVal G As Game)
+        CMD.CommandText = "INSERT DND_Jogo (idDM, dataComeco, titulo) " &
+                          "VALUES (@idDM, @dataComeco, @titulo) "
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@idDM", SqlDbType.Int).Value = Convert.ToInt32(G.idDM)
+        CMD.Parameters.Add("@dataComeco", SqlDbType.Date).Value = Convert.ToDateTime(G.StartDate)
+        CMD.Parameters.Add("@titulo", SqlDbType.VarChar, 64).Value = G.GameName
+
+        CN.Open()
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to update game in database. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+        CN.Close()
+
+        CMD.CommandText = "SELECT TOP 1 idJogo FROM DND_Jogo ORDER BY idJogo DESC"
+        CMD.CommandType = CommandType.Text
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            G.GameID = RDR.Item("idJogo")
+        End While
+        CN.Close()
+    End Sub
+
+
+
 
     Private Sub CheckedListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CheckedListBox1.SelectedIndexChanged
         Dim item As String = e.ToString
