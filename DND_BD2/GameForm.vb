@@ -383,6 +383,7 @@ Public Class GameForm
         RDR = CMD.ExecuteReader()
         While RDR.Read
             G.GameID = RDR.Item("idJogo")
+            G.GameName = RDR.Item("titulo")
         End While
         CN.Close()
     End Sub
@@ -420,6 +421,154 @@ Public Class GameForm
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         editing = True
         EnableEditInterface()
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim id
+        Try
+            id = Convert.ToInt32(PlayerID.Text)
+        Catch
+            MessageBox.Show("Error Please Insert an Integer in field")
+            Exit Sub
+        End Try
+        Dim name = PlayerName.Text
+
+        CMD.CommandText = "getPersonagens"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(id)
+        CMD.Parameters.Add("@name", SqlDbType.VarChar, 30).Value = name
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            Dim c = New Character
+            c.ID = RDR.Item("id")
+            c.Name = RDR.Item("nome")
+            c.Nivel = RDR.Item("level")
+            c.Str = RDR.Item("str")
+            c.StrMod = RDR.Item("strMod")
+            c.Dex = RDR.Item("dex")
+            c.DexMod = RDR.Item("dexMod")
+            c.Con = RDR.Item("con")
+            c.ConMod = RDR.Item("conMod")
+            c.Int = RDR.Item("int")
+            c.IntMod = RDR.Item("intMod")
+            c.Wis = RDR.Item("wis")
+            c.WisMod = RDR.Item("wisMod")
+            c.Cha = RDR.Item("cha")
+            c.ChaMod = RDR.Item("chaMod")
+            PlayerCharacters.Items.Add(c)
+        End While
+
+        CN.Close()
+
+
+
+    End Sub
+
+    Private Sub PlayerCharacters_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PlayerCharacters.SelectedIndexChanged
+        If PlayerCharacters.SelectedIndex > -1 Then
+            showCharacter(PlayerCharacters.SelectedItem)
+        End If
+    End Sub
+
+    Sub showCharacter(c As Character)
+        clearCharFields()
+        CharName.Text = c.Name
+        CharLevel.Text = c.Nivel
+        CharStr.Text = c.Str
+        StrMod.Text = c.StrMod
+        CharDex.Text = c.Dex
+        DexMod.Text = c.DexMod
+        CharCon.Text = c.Con
+        ConMod.Text = c.ConMod
+        CharInt.Text = c.Int
+        intMod.Text = c.IntMod
+        CharWis.Text = c.Wis
+        WisMod.Text = c.WisMod
+        CharCha.Text = c.Cha
+        ChaMod.Text = c.ChaMod
+
+        CMD.CommandText = "getItems"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
+
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            Dim itemName = RDR.Item("nome")
+            CharItems.Items.Add(itemName)
+        End While
+
+        CN.Close()
+
+
+        CMD.CommandText = "getClasses"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
+
+        CN.Open()
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            Dim itemName = RDR.Item("nome")
+            CharClasses.Items.Add(itemName)
+        End While
+
+        CN.Close()
+
+
+    End Sub
+
+    Sub clearCharFields()
+        CharName.Text = ""
+        CharLevel.Text = ""
+        CharStr.Text = ""
+        StrMod.Text = ""
+        CharDex.Text = ""
+        DexMod.Text = ""
+        CharCon.Text = ""
+        ConMod.Text = ""
+        CharInt.Text = ""
+        intMod.Text = ""
+        CharWis.Text = ""
+        WisMod.Text = ""
+        CharCha.Text = ""
+        ChaMod.Text = ""
+        CharClasses.Items.Clear()
+        CharItems.Items.Clear()
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim sName = Nothing
+        Dim sClass = Nothing
+        Dim sNivel = Nothing
+        Dim sRange = Nothing
+
+        If (String.Compare(SpellName.Text, "") <> 0) Then
+            sName = SpellName.Text
+        End If
+
+        If (String.Compare(ClassFilter.Text, "") <> 0) Then
+            sClass = ClassFilter.Text
+        End If
+
+        If (String.Compare(LevelFilter.Text, "") <> 0) Then
+            sNivel = Convert.ToInt32(LevelFilter.Text)
+        End If
+
+        If (String.Compare(RangeFilter.Text, "") <> 0) Then
+            sRange = Convert.ToInt32(RangeFilter.Text)
+        End If
+
+
+        CMD.CommandText = "filterSpells"
+            CMD.CommandType = CommandType.StoredProcedure
+            CMD.Parameters.Clear()
+            CMD.Parameters.Add("@nomeClasse", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
     End Sub
 End Class
 
