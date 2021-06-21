@@ -14,10 +14,20 @@
     Dim _cha As Int32
     Dim _chaMod As Int32
     Dim _nivel As Int32
+    Dim _raca As String
 
     Public Sub New()
         MyBase.New()
     End Sub
+
+    Property Raca As String
+        Get
+            Return _raca
+        End Get
+        Set(value As String)
+            _raca = value
+        End Set
+    End Property
 
     Property ID As Int32
         Get

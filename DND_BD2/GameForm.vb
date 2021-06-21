@@ -12,8 +12,14 @@ Public Class GameForm
     Dim adding As Boolean = False
     Dim editing As Boolean = False
     Dim deleting As Boolean = False
+    'Tab2
     Dim currentPlayer As Integer = -1
     Dim currentChar As Integer = -1
+    Dim edditingChar As Boolean = False
+    Dim addingChar As Boolean = False
+    Dim deletingChar As Boolean = False
+
+
 
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
         If ListBox1.SelectedIndex > -1 Then
@@ -29,6 +35,9 @@ Public Class GameForm
         StartDate.ReadOnly = True
         Label14.Visible = False
         ListBox4.Visible = False
+        'Char Tab
+        NormalInterface()
+
         '' Change this line for our database
         CN = New SqlConnection("Server = tcp:mednat.ieeta.pt\SQLSERVER,8101; Database =  p4g5 ; UID = p4g5; PWD =  ola123adeus321LEI")
 
@@ -72,6 +81,28 @@ Public Class GameForm
         CN.Close()
         RDR.Close()
         currentDM = 0
+
+        CMD.CommandText = "SELECT nome FROM DND_Classe"
+        CMD.CommandType = CommandType.Text
+        CN.Open()
+        RDR = CMD.ExecuteReader
+        While RDR.Read
+            Dim part As New Participante
+            Classesss.Items.Add(RDR.Item("nome"))
+        End While
+        CN.Close()
+        RDR.Close()
+
+        CMD.CommandText = "SELECT nome FROM DND_Raca"
+        CMD.CommandType = CommandType.Text
+        CN.Open()
+        RDR = CMD.ExecuteReader
+        While RDR.Read
+            Dim part As New Participante
+            ListBox3.Items.Add(RDR.Item("nome"))
+        End While
+        CN.Close()
+        RDR.Close()
     End Sub
 
     Sub EditingGame()
@@ -151,6 +182,11 @@ Public Class GameForm
         EnableAddInterface()
     End Sub
 
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
+        deleting = True
+        EnableDeleteInterface()
+    End Sub
+
     Sub EnableReadInterface()
         GameTitle.Text = ""
         DMName.Text = ""
@@ -158,7 +194,7 @@ Public Class GameForm
         For i As Integer = 0 To CheckedListBox2.Items.Count - 1
             CheckedListBox2.SetItemChecked(i, False)
         Next
-        Button6.Enabled = True
+        Button10.Enabled = True
         Button1.Enabled = True
         Button2.Enabled = True
         Button3.Visible = False
@@ -178,7 +214,7 @@ Public Class GameForm
         GameTitle.Text = ""
         DMName.Text = ""
         StartDate.Text = Format(Today, "short Date")
-        Button6.Enabled = False
+        Button10.Enabled = False
         Button1.Enabled = False
         Button2.Enabled = False
         Button3.Visible = True
@@ -195,7 +231,7 @@ Public Class GameForm
     Sub EnableDeleteInterface()
         EnableReadInterface()
         ListBox1.Enabled = False
-        Button6.Enabled = False
+        Button10.Enabled = False
         Button1.Enabled = False
         Button2.Enabled = False
         Button3.Visible = True
@@ -204,7 +240,7 @@ Public Class GameForm
 
     Sub EnableEditInterface()
         DMName.Text = ""
-        Button6.Enabled = False
+        Button10.Enabled = False
         Button1.Enabled = False
         Button2.Enabled = False
         Button3.Visible = True
@@ -378,7 +414,7 @@ Public Class GameForm
         End Try
 
         CN.Close()
-        CMD.CommandText = "SELECT TOP 1 idJogo FROM DND_Jogo ORDER BY idJogo DESC"
+        CMD.CommandText = "SELECT TOP 1 * FROM DND_Jogo ORDER BY idJogo DESC"
         CMD.CommandType = CommandType.Text
         CN.Open()
         Dim RDR As SqlDataReader
@@ -415,26 +451,51 @@ Public Class GameForm
         End If
     End Sub
 
-
-
-
-
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         editing = True
         EnableEditInterface()
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        RefreshTab2()
+    End Sub
+
+    Private Sub RefreshTab2()
         PlayerCharacters.Items.Clear()
         Dim id
         Try
             id = Convert.ToInt32(PlayerID.Text)
+
         Catch
             MessageBox.Show("Error Please Insert an Integer in field")
             Exit Sub
         End Try
         Dim name = PlayerName.Text
+
+        CMD.CommandText = "existsPlayer"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@idP", SqlDbType.Int).Value = id
+        CMD.Parameters.Add("@exists", SqlDbType.Int)
+        CMD.Parameters("@exists").Direction = ParameterDirection.Output
+        CN.Open()
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to verify id. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+        CN.Close()
+
+        Dim exists As Integer = CStr(CMD.Parameters("@exists").Value)
+        If exists = 1 Then
+            currentPlayer = id
+        Else
+            currentPlayer = -1
+            currentChar = -1
+        End If
+
 
         CMD.CommandText = "getPersonagens"
         CMD.CommandType = CommandType.StoredProcedure
@@ -444,9 +505,9 @@ Public Class GameForm
         CN.Open()
         Dim RDR As SqlDataReader
         RDR = CMD.ExecuteReader()
-        If Not RDR.HasRows Then
-            currentDM = -1
-        End If
+
+
+
         While RDR.Read
             Dim c = New Character
             c.ID = RDR.Item("id")
@@ -464,18 +525,18 @@ Public Class GameForm
             c.WisMod = RDR.Item("wisMod")
             c.Cha = RDR.Item("cha")
             c.ChaMod = RDR.Item("chaMod")
+            c.Raca = RDR.Item("nomeRaca")
             PlayerCharacters.Items.Add(c)
-            currentDM = c.ID
+
+
         End While
 
         CN.Close()
-
-
-
     End Sub
 
     Private Sub PlayerCharacters_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PlayerCharacters.SelectedIndexChanged
         If PlayerCharacters.SelectedIndex > -1 Then
+            currentChar = PlayerCharacters.SelectedItem.ID
             showCharacter(PlayerCharacters.SelectedItem)
         End If
     End Sub
@@ -496,6 +557,7 @@ Public Class GameForm
         WisMod.Text = c.WisMod
         CharCha.Text = c.Cha
         ChaMod.Text = c.ChaMod
+        CharRace.Text = c.Raca
 
         CMD.CommandText = "getItems"
         CMD.CommandType = CommandType.StoredProcedure
@@ -653,8 +715,11 @@ Public Class GameForm
         End If
     End Sub
 
-    Sub AddInterface()
-        clearCharFields()
+
+
+    Sub EditInterfaceTab2()
+        CharItems.Visible = False
+        ListBox3.Visible = True
         StrMod.Enabled = False
         DexMod.Enabled = False
         ConMod.Enabled = False
@@ -662,19 +727,344 @@ Public Class GameForm
         WisMod.Enabled = False
         ChaMod.Enabled = False
         EdChar.Enabled = False
+        CharStr.Enabled = True
+        CharInt.Enabled = True
+        CharCha.Enabled = True
+        CharCon.Enabled = True
+        CharWis.Enabled = True
+        CharDex.Enabled = True
         AddChar.Enabled = False
+        CharName.Enabled = True
         PlayerCharacters.Enabled = False
         Button6.Enabled = False
         PlayerID.Enabled = False
         PlayerName.Enabled = False
-        CharClasses.Enabled = False
         CharItems.Enabled = False
         Classesss.Visible = True
-        AddClassToChar.Enabled = False
+        Button8.Visible = True
+        Button7.Visible = True
+        AddClassToChar.Visible = False
+        ListBox3.Visible = False
+        Label22.Visible = False
+        AddClassToChar.Visible = True
+        Lvl.Visible = True
+        Label21.Visible = True
+        Button9.Enabled = False
+    End Sub
+
+    Sub AddInterface()
+        clearCharFields()
+        CharItems.Visible = False
+        ListBox3.Visible = True
+        StrMod.Enabled = False
+        DexMod.Enabled = False
+        ConMod.Enabled = False
+        intMod.Enabled = False
+        WisMod.Enabled = False
+        ChaMod.Enabled = False
+        EdChar.Enabled = False
+        CharStr.Enabled = True
+        CharInt.Enabled = True
+        CharCha.Enabled = True
+        CharCon.Enabled = True
+        CharWis.Enabled = True
+        CharDex.Enabled = True
+        AddChar.Enabled = False
+        CharName.Enabled = True
+        PlayerCharacters.Enabled = False
+        Button6.Enabled = False
+        PlayerID.Enabled = False
+        PlayerName.Enabled = False
+        CharItems.Enabled = False
+        Classesss.Visible = True
+        Button8.Visible = True
+        Button7.Visible = True
+        AddClassToChar.Visible = False
+        Button9.Enabled = False
+    End Sub
+
+    Sub NormalInterface()
+        clearCharFields()
+        CharItems.Visible = True
+        Button9.Enabled = True
+        ListBox3.Visible = False
+        Label22.Visible = False
+        CharRace.Enabled = False
+        StrMod.Enabled = False
+        DexMod.Enabled = False
+        ConMod.Enabled = False
+        intMod.Enabled = False
+        WisMod.Enabled = False
+        ChaMod.Enabled = False
+        CharStr.Enabled = False
+        CharInt.Enabled = False
+        CharCha.Enabled = False
+        CharCon.Enabled = False
+        CharWis.Enabled = False
+        CharDex.Enabled = False
+        EdChar.Enabled = True
+        AddChar.Enabled = True
+        PlayerCharacters.Enabled = True
+        Button6.Enabled = True
+        PlayerID.Enabled = True
+        PlayerName.Enabled = True
+        CharItems.Enabled = False
+        CharName.Enabled = False
+        CharLevel.Enabled = False
+        AddClassToChar.Enabled = True
+        Classesss.Visible = False
+        Lvl.Visible = False
+        Label21.Visible = False
+        AddClassToChar.Visible = False
+        Button8.Visible = False
+        Button7.Visible = False
+    End Sub
+
+    Sub DeleteInterface()
+        PlayerCharacters.Enabled = False
+        Button8.Visible = True
+        Button7.Visible = True
+        Button9.Enabled = False
+        EdChar.Enabled = False
+        AddChar.Enabled = False
     End Sub
 
     Private Sub AddChar_Click(sender As Object, e As EventArgs) Handles AddChar.Click
+        If currentPlayer = -1 Then
+            MsgBox("You must select a player to add the character to!")
+            Exit Sub
+        End If
+        addingChar = True
+        AddInterface()
+    End Sub
+
+    Private Sub EdChar_Click(sender As Object, e As EventArgs) Handles EdChar.Click
+        If currentChar = -1 Then
+            MsgBox("You must select a character to edit them!")
+            Exit Sub
+        End If
+        edditingChar = True
+        EditInterfaceTab2()
+    End Sub
+
+    Private Sub confirmWhileAdd()
+
+
+        CMD.CommandText = "adicionarPersonagem"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        If CharName.Text.Length = 0 Then
+            MsgBox("Specify Charname")
+            Exit Sub
+        End If
+        CMD.Parameters.Add("@nome", SqlDbType.VarChar, 30).Value = CharName.Text
+        Dim Str, Wis, Int, Con, Dex, Cha As Integer
+
+
+        Try
+            Str = Convert.ToInt32(CharStr.Text)
+            Wis = Convert.ToInt32(CharWis.Text)
+            Int = Convert.ToInt32(CharInt.Text)
+            Con = Convert.ToInt32(CharCon.Text)
+            Dex = Convert.ToInt32(CharDex.Text)
+            Cha = Convert.ToInt32(CharCha.Text)
+        Catch ex As Exception
+            MsgBox("Stats are not integer values.")
+            Exit Sub
+        End Try
+
+        CMD.Parameters.Add("@Str", SqlDbType.Int).Value = Str
+        CMD.Parameters.Add("@Wis", SqlDbType.Int).Value = Wis
+        CMD.Parameters.Add("@Cha", SqlDbType.Int).Value = Cha
+        CMD.Parameters.Add("@Int", SqlDbType.Int).Value = Int
+        CMD.Parameters.Add("@Con", SqlDbType.Int).Value = Con
+        CMD.Parameters.Add("@Dex", SqlDbType.Int).Value = Dex
+
+        If Classesss.SelectedItems.Count = 0 Then
+            MsgBox("Please select a class.")
+            Exit Sub
+        End If
+
+        CMD.Parameters.Add("@nomeC", SqlDbType.VarChar, 15).Value = Classesss.SelectedItem
+
+        If ListBox3.SelectedItems.Count = 0 Then
+            MsgBox("Please select a race.")
+            Exit Sub
+        End If
+        CMD.Parameters.Add("@nomeR", SqlDbType.VarChar, 15).Value = ListBox3.SelectedItem
+        CMD.Parameters.Add("@idParticipante", SqlDbType.Int).Value = currentPlayer
+        CN.Open()
+
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to add character to the database. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
 
     End Sub
+
+    Private Sub edCharacter()
+        Dim Str, Wis, Int, Con, Dex, Cha As Integer
+        If CharName.Text = "" Then
+            MsgBox("Invalid Character name!")
+            Exit Sub
+        End If
+        Try
+            Str = Convert.ToInt32(CharStr.Text)
+            Wis = Convert.ToInt32(CharWis.Text)
+            Int = Convert.ToInt32(CharInt.Text)
+            Con = Convert.ToInt32(CharCon.Text)
+            Dex = Convert.ToInt32(CharDex.Text)
+            Cha = Convert.ToInt32(CharCha.Text)
+        Catch ex As Exception
+            MsgBox("Stats are not integer values.")
+            Exit Sub
+        End Try
+
+        CMD.CommandText = "updatePersonagem"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@Str", SqlDbType.Int).Value = Str
+        CMD.Parameters.Add("@Wis", SqlDbType.Int).Value = Wis
+        CMD.Parameters.Add("@Cha", SqlDbType.Int).Value = Cha
+        CMD.Parameters.Add("@Int", SqlDbType.Int).Value = Int
+        CMD.Parameters.Add("@Con", SqlDbType.Int).Value = Con
+        CMD.Parameters.Add("@Dex", SqlDbType.Int).Value = Dex
+        CMD.Parameters.Add("@nome", SqlDbType.VarChar, 30).Value = CharName.Text
+        CMD.Parameters.Add("@idP", SqlDbType.Int).Value = currentChar
+        CN.Open()
+
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to update character. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+    End Sub
+
+    Private Sub delChar()
+
+        CMD.CommandText = "deleteChar"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@idPersonagem", SqlDbType.Int).Value = currentChar
+        CN.Open()
+
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to delete character. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+    End Sub
+
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        NormalInterface()
+        addingChar = False
+        edditingChar = False
+        deletingChar = False
+    End Sub
+
+    Private Sub CharName_TextChanged(sender As Object, e As EventArgs) Handles CharName.TextChanged
+
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+        'Confirm button
+        If addingChar Then
+            confirmWhileAdd()
+        ElseIf edditingChar Then
+            edCharacter()
+        ElseIf deletingChar Then
+            delChar()
+        End If
+        RefreshTab2()
+        NormalInterface()
+        If PlayerCharacters.SelectedIndex > -1 Then
+            showCharacter(PlayerCharacters.SelectedItem)
+        End If
+        addingChar = False
+        edditingChar = False
+        deletingChar = False
+    End Sub
+
+    Private Sub ListBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox3.SelectedIndexChanged
+        CharRace.Text = ListBox3.SelectedItem
+    End Sub
+
+    Private Sub AddClassToChar_Click(sender As Object, e As EventArgs) Handles AddClassToChar.Click
+        If Classesss.SelectedItems.Count = 0 Then
+            MsgBox("No selected class to add to character!")
+            Exit Sub
+        End If
+        If Lvl.Text = "" Then
+            MsgBox("No class level specified!")
+            Exit Sub
+        End If
+        Dim nivel As Integer
+        Try
+            nivel = Convert.ToInt32(Lvl.Text)
+        Catch ex As Exception
+            MsgBox("Class level is not integer value.")
+            Exit Sub
+        End Try
+
+        CMD.CommandText = "addClassToChar"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@nomeC", SqlDbType.VarChar, 15).Value = Classesss.SelectedItem
+        CMD.Parameters.Add("@idP", SqlDbType.Int).Value = currentChar
+        CMD.Parameters.Add("@nivel", SqlDbType.Int).Value = nivel
+        CN.Open()
+
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to add class to a character. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+
+
+        If PlayerCharacters.SelectedIndex > -1 Then
+            showCharacter(PlayerCharacters.SelectedItem)
+        End If
+
+        CMD.CommandText = "getPersonagemLvl"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@idP", SqlDbType.Int).Value = currentChar
+        CMD.Parameters.Add("@lvl", SqlDbType.Int)
+        CMD.Parameters("@lvl").Direction = ParameterDirection.Output
+        CN.Open()
+
+        Try
+            CMD.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw New Exception("Failed to calculate character level. " & vbCrLf & "ERROR MESSAGE: " & vbCrLf & ex.Message)
+        Finally
+            CN.Close()
+        End Try
+
+
+        Dim newLvl As Integer = CStr(CMD.Parameters("@lvl").Value)
+        CharLevel.Text = newLvl.ToString()
+
+    End Sub
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        If currentChar = -1 Then
+            MsgBox("You must select a character to delete them!")
+            Exit Sub
+        End If
+        deletingChar = True
+        DeleteInterface()
+    End Sub
+
+
 End Class
 
