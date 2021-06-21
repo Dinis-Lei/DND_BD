@@ -12,6 +12,8 @@ Public Class GameForm
     Dim adding As Boolean = False
     Dim editing As Boolean = False
     Dim deleting As Boolean = False
+    Dim currentPlayer As Integer = -1
+    Dim currentChar As Integer = -1
 
     Private Sub ListBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListBox1.SelectedIndexChanged
         If ListBox1.SelectedIndex > -1 Then
@@ -441,6 +443,9 @@ Public Class GameForm
         CN.Open()
         Dim RDR As SqlDataReader
         RDR = CMD.ExecuteReader()
+        If Not RDR.HasRows Then
+            currentDM = -1
+        End If
         While RDR.Read
             Dim c = New Character
             c.ID = RDR.Item("id")
@@ -459,6 +464,7 @@ Public Class GameForm
             c.Cha = RDR.Item("cha")
             c.ChaMod = RDR.Item("chaMod")
             PlayerCharacters.Items.Add(c)
+            currentDM = c.ID
         End While
 
         CN.Close()
@@ -569,6 +575,30 @@ Public Class GameForm
         CMD.CommandType = CommandType.StoredProcedure
         CMD.Parameters.Clear()
         CMD.Parameters.Add("@nomeClasse", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
+    End Sub
+
+    Sub AddInterface()
+        clearCharFields()
+        StrMod.Enabled = False
+        DexMod.Enabled = False
+        ConMod.Enabled = False
+        intMod.Enabled = False
+        WisMod.Enabled = False
+        ChaMod.Enabled = False
+        EdChar.Enabled = False
+        AddChar.Enabled = False
+        PlayerCharacters.Enabled = False
+        Button6.Enabled = False
+        PlayerID.Enabled = False
+        PlayerName.Enabled = False
+        CharClasses.Enabled = False
+        CharItems.Enabled = False
+        Classesss.Visible = True
+        AddClassToChar.Enabled = False
+    End Sub
+
+    Private Sub AddChar_Click(sender As Object, e As EventArgs) Handles AddChar.Click
+
     End Sub
 End Class
 
