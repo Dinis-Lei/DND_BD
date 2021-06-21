@@ -110,7 +110,10 @@ Public Class GameForm
         While RDR.Read
             Dim name As String = RDR.Item("nomeParticipante")
             Dim id As String = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("idParticipante")), "", RDR.Item("idParticipante")))
-            ListBox2.Items.Add(id + "  " + name)
+            Dim part As New Participante
+            part.ID = id
+            part.Name = name
+            ListBox2.Items.Add(part)
         End While
         RDR.Close()
         Dim str As String = CStr(CMD.Parameters("@DMName").Value)
@@ -167,10 +170,38 @@ Public Class GameForm
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TabControl1.SelectedIndexChanged
+        If TabControl1.SelectedTab.TabIndex = 1 Then
+            ''getPlayerCharacters()
+        End If
+    End Sub
+
+    Private Sub getPlayerCharacters(id As Int32)
+
+        CMD.CommandText = ("Select * FROM DND_PC JOIN DND_Personagem ON DND_PC.idPC = DND_Personagem.idPersonagem WHERE DND_PC.idJogador = @idJogador")
+        CMD.CommandType = CommandType.Text
+        CMD.Parameters.Add("@idJogador", SqlDbType.Int).Value = id
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader
+        PlayerCharacters.Items.Clear()
+        While RDR.Read
+            Dim persId = Convert.ToString(RDR.Item("idPersonagem"))
+            Dim persName = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("nome")), "", RDR.Item("nome")))
+            PlayerCharacters.Items.Add(persId + "  " + persName)
+        End While
+        CN.Close()
+        RDR.Close()
 
     End Sub
 
+
     Private Sub ListBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox2.SelectedIndexChanged
+        'AAAAAAAa
+        Dim player As New Participante
+        player = CType(ListBox2.SelectedItem, Participante)
+        PlayerID.Text = player.ID
+        PlayerName.Text = player.Name
+
 
     End Sub
 
@@ -285,6 +316,42 @@ Public Class GameForm
             DMName.Text = currentDM.ToString()
             'Debug.Print(currentDM)
         End If
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim id = -1
+        Try
+            id = Convert.ToInt32(PlayerID.Text)
+        Catch ex As Exception
+            PlayerName.Text = ""
+            PlayerID.Text = ""
+            MsgBox(ex.Message)
+        End Try
+        Dim name = PlayerName.Text
+        CMD.CommandText = "getPersonagens"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
+        CMD.Parameters.Add("@id", SqlDbType.Int).Value = id
+        CMD.Parameters.Add("@name", SqlDbType.VarChar, 30).Value = name
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader
+        PlayerCharacters.Items.Clear()
+        While RDR.Read
+            Dim pers As New Character
+            pers.ID = Convert.ToString(RDR.Item("idPersonagem"))
+            pers.Name = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("nome")), "", RDR.Item("nome")))
+            PlayerCharacters.Items.Add(pers)
+        End While
+        CN.Close()
+        RDR.Close()
+
+
+
+    End Sub
+
+    Private Sub PlayerCharacters_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PlayerCharacters.SelectedIndexChanged
+
     End Sub
 
 
