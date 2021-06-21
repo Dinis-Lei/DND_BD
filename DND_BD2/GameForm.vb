@@ -545,10 +545,13 @@ Public Class GameForm
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
         SpellList.Items.Clear()
+        SpellInfo.Text = ""
         Dim sName = Nothing
         Dim sClass = Nothing
         Dim sNivel = Nothing
         Dim sRange = Nothing
+        Dim flg1 = 0
+        Dim flg2 = 0
 
         CMD.CommandText = "filterSpells"
         CMD.CommandType = CommandType.StoredProcedure
@@ -582,6 +585,21 @@ Public Class GameForm
             CMD.Parameters.Add("@range", SqlDbType.Int).Value = DBNull.Value
         End If
 
+        If LevelAsc.Checked = True Then
+            flg1 = 1
+        ElseIf LevelDesc.Checked = True Then
+            flg1 = 2
+        End If
+
+        If RangeAsc.Checked = True Then
+            flg2 = 1
+        ElseIf RangeDesc.Checked = True Then
+            flg2 = 2
+        End If
+
+        CMD.Parameters.Add("@flg1", SqlDbType.Int).Value = flg1
+        CMD.Parameters.Add("@flg2", SqlDbType.Int).Value = flg2
+
         CN.Open()
         Dim RDR As SqlDataReader
         RDR = CMD.ExecuteReader()
@@ -605,5 +623,28 @@ Public Class GameForm
         SpellInfo.Text = SpellList.SelectedItem.getExpandedText()
     End Sub
 
+    Private Sub LevelAsc_CheckedChanged(sender As Object, e As EventArgs) Handles LevelAsc.CheckedChanged
+        If LevelAsc.Checked Then
+            LevelDesc.Checked = False
+        End If
+    End Sub
+
+    Private Sub LevelDesc_CheckedChanged(sender As Object, e As EventArgs) Handles LevelDesc.CheckedChanged
+        If LevelDesc.Checked Then
+            LevelAsc.Checked = False
+        End If
+    End Sub
+
+    Private Sub RangeAsc_CheckedChanged(sender As Object, e As EventArgs) Handles RangeAsc.CheckedChanged
+        If RangeAsc.Checked Then
+            RangeDesc.Checked = False
+        End If
+    End Sub
+
+    Private Sub RangeDesc_CheckedChanged(sender As Object, e As EventArgs) Handles RangeDesc.CheckedChanged
+        If RangeDesc.Checked Then
+            RangeAsc.Checked = False
+        End If
+    End Sub
 End Class
 
