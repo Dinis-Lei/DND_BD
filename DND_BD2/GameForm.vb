@@ -103,7 +103,7 @@ Public Class GameForm
         If ListBox1.Items.Count = 0 Or currentGame < 0 Then Exit Sub
         Dim game As New Game
         game = CType(ListBox1.SelectedItem, Game)
-        Debug.Print(currentGame)
+        'Debug.Print(currentGame)
         GameTitle.Text = game.GameName
         DMName.Text = game.idDM
         StartDate.Text = Format(game.StartDate, "short Date")
