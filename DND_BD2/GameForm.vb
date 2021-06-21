@@ -426,6 +426,7 @@ Public Class GameForm
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        PlayerCharacters.Items.Clear()
         Dim id
         Try
             id = Convert.ToInt32(PlayerID.Text)
@@ -549,32 +550,107 @@ Public Class GameForm
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        SpellList.Items.Clear()
+        SpellInfo.Text = ""
         Dim sName = Nothing
         Dim sClass = Nothing
         Dim sNivel = Nothing
         Dim sRange = Nothing
-
-        If (String.Compare(SpellName.Text, "") <> 0) Then
-            sName = SpellName.Text
-        End If
-
-        If (String.Compare(ClassFilter.Text, "") <> 0) Then
-            sClass = ClassFilter.Text
-        End If
-
-        If (String.Compare(LevelFilter.Text, "") <> 0) Then
-            sNivel = Convert.ToInt32(LevelFilter.Text)
-        End If
-
-        If (String.Compare(RangeFilter.Text, "") <> 0) Then
-            sRange = Convert.ToInt32(RangeFilter.Text)
-        End If
-
+        Dim flg1 = 0
+        Dim flg2 = 0
 
         CMD.CommandText = "filterSpells"
         CMD.CommandType = CommandType.StoredProcedure
         CMD.Parameters.Clear()
-        CMD.Parameters.Add("@nomeClasse", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
+        If (String.Compare(SpellName.Text, "") <> 0) Then
+            sName = SpellName.Text
+            CMD.Parameters.Add("@spellName", SqlDbType.VarChar, 15).Value = sName
+        Else
+            CMD.Parameters.Add("@spellName", SqlDbType.VarChar, 15).Value = DBNull.Value
+        End If
+
+
+        If (String.Compare(ClassFilter.Text, "") <> 0) Then
+            sClass = ClassFilter.Text
+            CMD.Parameters.Add("@nomeClasse", SqlDbType.VarChar, 15).Value = sClass
+        Else
+            CMD.Parameters.Add("@nomeClasse", SqlDbType.VarChar, 15).Value = DBNull.Value
+        End If
+
+        If (String.Compare(LevelFilter.Text, "") <> 0) Then
+            sNivel = Convert.ToInt32(LevelFilter.Text)
+            CMD.Parameters.Add("@nivel", SqlDbType.Int).Value = Convert.ToInt32(sNivel)
+        Else
+            CMD.Parameters.Add("@nivel", SqlDbType.Int).Value = DBNull.Value
+        End If
+
+        If (String.Compare(RangeFilter.Text, "") <> 0) Then
+            sRange = Convert.ToInt32(RangeFilter.Text)
+            CMD.Parameters.Add("@range", SqlDbType.Int).Value = Convert.ToInt32(sRange)
+        Else
+            CMD.Parameters.Add("@range", SqlDbType.Int).Value = DBNull.Value
+        End If
+
+        If LevelAsc.Checked = True Then
+            flg1 = 1
+        ElseIf LevelDesc.Checked = True Then
+            flg1 = 2
+        End If
+
+        If RangeAsc.Checked = True Then
+            flg2 = 1
+        ElseIf RangeDesc.Checked = True Then
+            flg2 = 2
+        End If
+
+        CMD.Parameters.Add("@flg1", SqlDbType.Int).Value = flg1
+        CMD.Parameters.Add("@flg2", SqlDbType.Int).Value = flg2
+
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            Dim spell As New Spell
+            spell.Name = RDR.Item("spellName")
+            spell.ID = RDR.Item("idSpell")
+            spell.Level = RDR.Item("nivel")
+            spell.Range = RDR.Item("range")
+            spell.TypeOfDamage = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("tipoDano")), "", RDR.Item("tipoDano")))
+            spell.Classe = RDR.Item("classe")
+            spell.FlavorText = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("flavorText")), "", RDR.Item("flavorText")))
+
+            SpellList.Items.Add(spell)
+        End While
+
+        CN.Close()
+    End Sub
+
+    Private Sub SpellList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SpellList.SelectedIndexChanged
+        SpellInfo.Text = SpellList.SelectedItem.getExpandedText()
+    End Sub
+
+    Private Sub LevelAsc_CheckedChanged(sender As Object, e As EventArgs) Handles LevelAsc.CheckedChanged
+        If LevelAsc.Checked Then
+            LevelDesc.Checked = False
+        End If
+    End Sub
+
+    Private Sub LevelDesc_CheckedChanged(sender As Object, e As EventArgs) Handles LevelDesc.CheckedChanged
+        If LevelDesc.Checked Then
+            LevelAsc.Checked = False
+        End If
+    End Sub
+
+    Private Sub RangeAsc_CheckedChanged(sender As Object, e As EventArgs) Handles RangeAsc.CheckedChanged
+        If RangeAsc.Checked Then
+            RangeDesc.Checked = False
+        End If
+    End Sub
+
+    Private Sub RangeDesc_CheckedChanged(sender As Object, e As EventArgs) Handles RangeDesc.CheckedChanged
+        If RangeDesc.Checked Then
+            RangeAsc.Checked = False
+        End If
     End Sub
 
     Sub AddInterface()

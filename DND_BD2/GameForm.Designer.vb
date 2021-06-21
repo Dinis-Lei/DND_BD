@@ -82,12 +82,17 @@ Partial Class GameForm
         Me.PlayerName = New System.Windows.Forms.TextBox()
         Me.PlayerID = New System.Windows.Forms.TextBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.RangeAsc = New System.Windows.Forms.CheckBox()
+        Me.RangeDesc = New System.Windows.Forms.CheckBox()
+        Me.LevelAsc = New System.Windows.Forms.CheckBox()
+        Me.LevelDesc = New System.Windows.Forms.CheckBox()
+        Me.SpellInfo = New System.Windows.Forms.RichTextBox()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.RangeFilter = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.ListBox3 = New System.Windows.Forms.ListBox()
+        Me.SpellList = New System.Windows.Forms.ListBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.LevelFilter = New System.Windows.Forms.TextBox()
         Me.ClassFilter = New System.Windows.Forms.TextBox()
@@ -266,7 +271,7 @@ Partial Class GameForm
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage1.Size = New System.Drawing.Size(758, 349)
         Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "TabPage1"
+        Me.TabPage1.Text = "Game Info"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'ListBox4
@@ -342,7 +347,7 @@ Partial Class GameForm
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage2.Size = New System.Drawing.Size(758, 349)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "TabPage2"
+        Me.TabPage2.Text = "Character Info"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'EdChar
@@ -672,12 +677,17 @@ Partial Class GameForm
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.RangeAsc)
+        Me.TabPage3.Controls.Add(Me.RangeDesc)
+        Me.TabPage3.Controls.Add(Me.LevelAsc)
+        Me.TabPage3.Controls.Add(Me.LevelDesc)
+        Me.TabPage3.Controls.Add(Me.SpellInfo)
         Me.TabPage3.Controls.Add(Me.Label18)
         Me.TabPage3.Controls.Add(Me.Label17)
         Me.TabPage3.Controls.Add(Me.RangeFilter)
         Me.TabPage3.Controls.Add(Me.Label16)
         Me.TabPage3.Controls.Add(Me.Label15)
-        Me.TabPage3.Controls.Add(Me.ListBox3)
+        Me.TabPage3.Controls.Add(Me.SpellList)
         Me.TabPage3.Controls.Add(Me.Button5)
         Me.TabPage3.Controls.Add(Me.LevelFilter)
         Me.TabPage3.Controls.Add(Me.ClassFilter)
@@ -688,31 +698,78 @@ Partial Class GameForm
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.TabPage3.Size = New System.Drawing.Size(758, 349)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "TabPage3"
+        Me.TabPage3.Text = "Spell Info"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'RangeAsc
+        '
+        Me.RangeAsc.AutoSize = True
+        Me.RangeAsc.Location = New System.Drawing.Point(709, 37)
+        Me.RangeAsc.Name = "RangeAsc"
+        Me.RangeAsc.Size = New System.Drawing.Size(58, 24)
+        Me.RangeAsc.TabIndex = 26
+        Me.RangeAsc.Text = "ASC"
+        Me.RangeAsc.UseVisualStyleBackColor = True
+        '
+        'RangeDesc
+        '
+        Me.RangeDesc.AutoSize = True
+        Me.RangeDesc.Location = New System.Drawing.Point(709, 66)
+        Me.RangeDesc.Name = "RangeDesc"
+        Me.RangeDesc.Size = New System.Drawing.Size(67, 24)
+        Me.RangeDesc.TabIndex = 27
+        Me.RangeDesc.Text = "DESC"
+        Me.RangeDesc.UseVisualStyleBackColor = True
+        '
+        'LevelAsc
+        '
+        Me.LevelAsc.AutoSize = True
+        Me.LevelAsc.Location = New System.Drawing.Point(561, 37)
+        Me.LevelAsc.Name = "LevelAsc"
+        Me.LevelAsc.Size = New System.Drawing.Size(58, 24)
+        Me.LevelAsc.TabIndex = 24
+        Me.LevelAsc.Text = "ASC"
+        Me.LevelAsc.UseVisualStyleBackColor = True
+        '
+        'LevelDesc
+        '
+        Me.LevelDesc.AutoSize = True
+        Me.LevelDesc.Location = New System.Drawing.Point(561, 66)
+        Me.LevelDesc.Name = "LevelDesc"
+        Me.LevelDesc.Size = New System.Drawing.Size(67, 24)
+        Me.LevelDesc.TabIndex = 25
+        Me.LevelDesc.Text = "DESC"
+        Me.LevelDesc.UseVisualStyleBackColor = True
+        '
+        'SpellInfo
+        '
+        Me.SpellInfo.Location = New System.Drawing.Point(92, 294)
+        Me.SpellInfo.Name = "SpellInfo"
+        Me.SpellInfo.Size = New System.Drawing.Size(678, 120)
+        Me.SpellInfo.TabIndex = 17
+        Me.SpellInfo.Text = ""
         '
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(427, 36)
+        Me.Label18.Location = New System.Drawing.Point(652, 14)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(34, 15)
-        Me.Label18.TabIndex = 31
-        Me.Label18.Text = "Level"
+        Me.Label18.Size = New System.Drawing.Size(51, 20)
+        Me.Label18.TabIndex = 16
+        Me.Label18.Text = "Range"
         '
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(559, 18)
+        Me.Label17.Location = New System.Drawing.Point(512, 14)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(34, 15)
         Me.Label17.TabIndex = 8
-        Me.Label17.Text = "Nivel"
+        Me.Label17.Text = "Level"
         '
         'RangeFilter
         '
-        Me.RangeFilter.Location = New System.Drawing.Point(624, 35)
-        Me.RangeFilter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.RangeFilter.Location = New System.Drawing.Point(652, 47)
         Me.RangeFilter.Name = "RangeFilter"
         Me.RangeFilter.Size = New System.Drawing.Size(45, 23)
         Me.RangeFilter.TabIndex = 7
@@ -720,7 +777,7 @@ Partial Class GameForm
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(419, 18)
+        Me.Label16.Location = New System.Drawing.Point(369, 14)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(40, 15)
         Me.Label16.TabIndex = 6
@@ -729,22 +786,21 @@ Partial Class GameForm
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(80, 12)
+        Me.Label15.Location = New System.Drawing.Point(92, 14)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(39, 15)
         Me.Label15.TabIndex = 5
         Me.Label15.Text = "Name"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'ListBox3
+        'SpellList
         '
-        Me.ListBox3.FormattingEnabled = True
-        Me.ListBox3.ItemHeight = 15
-        Me.ListBox3.Location = New System.Drawing.Point(80, 131)
-        Me.ListBox3.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.ListBox3.Name = "ListBox3"
-        Me.ListBox3.Size = New System.Drawing.Size(594, 169)
-        Me.ListBox3.TabIndex = 4
+        Me.SpellList.FormattingEnabled = True
+        Me.SpellList.ItemHeight = 20
+        Me.SpellList.Location = New System.Drawing.Point(92, 144)
+        Me.SpellList.Name = "SpellList"
+        Me.SpellList.Size = New System.Drawing.Size(678, 104)
+        Me.SpellList.TabIndex = 4
         '
         'Button5
         '
@@ -758,26 +814,23 @@ Partial Class GameForm
         '
         'LevelFilter
         '
-        Me.LevelFilter.Location = New System.Drawing.Point(559, 35)
-        Me.LevelFilter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.LevelFilter.Location = New System.Drawing.Point(512, 47)
         Me.LevelFilter.Name = "LevelFilter"
         Me.LevelFilter.Size = New System.Drawing.Size(38, 23)
         Me.LevelFilter.TabIndex = 2
         '
         'ClassFilter
         '
-        Me.ClassFilter.Location = New System.Drawing.Point(419, 35)
-        Me.ClassFilter.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.ClassFilter.Location = New System.Drawing.Point(369, 47)
         Me.ClassFilter.Name = "ClassFilter"
         Me.ClassFilter.Size = New System.Drawing.Size(115, 23)
         Me.ClassFilter.TabIndex = 1
         '
         'SpellName
         '
-        Me.SpellName.Location = New System.Drawing.Point(80, 35)
-        Me.SpellName.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.SpellName.Location = New System.Drawing.Point(92, 47)
         Me.SpellName.Name = "SpellName"
-        Me.SpellName.Size = New System.Drawing.Size(295, 23)
+        Me.SpellName.Size = New System.Drawing.Size(259, 27)
         Me.SpellName.TabIndex = 0
         '
         'GameForm
@@ -856,7 +909,7 @@ Partial Class GameForm
     Friend WithEvents RangeFilter As TextBox
     Friend WithEvents Label16 As Label
     Friend WithEvents Label15 As Label
-    Friend WithEvents ListBox3 As ListBox
+    Friend WithEvents SpellList As ListBox
     Friend WithEvents Button5 As Button
     Friend WithEvents LevelFilter As TextBox
     Friend WithEvents ClassFilter As TextBox
@@ -865,12 +918,9 @@ Partial Class GameForm
     Friend WithEvents Button6 As Button
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
-    Friend WithEvents Label19 As Label
-    Friend WithEvents Label21 As Label
-    Friend WithEvents Lvl As TextBox
-    Friend WithEvents Classesss As ListBox
-    Friend WithEvents Label20 As Label
-    Friend WithEvents AddClassToChar As Button
-    Friend WithEvents AddChar As Button
-    Friend WithEvents EdChar As Button
+    Friend WithEvents SpellInfo As RichTextBox
+    Friend WithEvents LevelAsc As CheckBox
+    Friend WithEvents LevelDesc As CheckBox
+    Friend WithEvents RangeAsc As CheckBox
+    Friend WithEvents RangeDesc As CheckBox
 End Class
