@@ -74,16 +74,17 @@ Partial Class GameForm
         Me.PlayerName = New System.Windows.Forms.TextBox()
         Me.PlayerID = New System.Windows.Forms.TextBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.SpellInfo = New System.Windows.Forms.RichTextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.RangeFilter = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Label15 = New System.Windows.Forms.Label()
-        Me.ListBox3 = New System.Windows.Forms.ListBox()
+        Me.SpellList = New System.Windows.Forms.ListBox()
         Me.Button5 = New System.Windows.Forms.Button()
         Me.LevelFilter = New System.Windows.Forms.TextBox()
         Me.ClassFilter = New System.Windows.Forms.TextBox()
         Me.SpellName = New System.Windows.Forms.TextBox()
-        Me.Label18 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -564,12 +565,13 @@ Partial Class GameForm
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.SpellInfo)
         Me.TabPage3.Controls.Add(Me.Label18)
         Me.TabPage3.Controls.Add(Me.Label17)
         Me.TabPage3.Controls.Add(Me.RangeFilter)
         Me.TabPage3.Controls.Add(Me.Label16)
         Me.TabPage3.Controls.Add(Me.Label15)
-        Me.TabPage3.Controls.Add(Me.ListBox3)
+        Me.TabPage3.Controls.Add(Me.SpellList)
         Me.TabPage3.Controls.Add(Me.Button5)
         Me.TabPage3.Controls.Add(Me.LevelFilter)
         Me.TabPage3.Controls.Add(Me.ClassFilter)
@@ -582,6 +584,23 @@ Partial Class GameForm
         Me.TabPage3.Text = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'SpellInfo
+        '
+        Me.SpellInfo.Location = New System.Drawing.Point(92, 294)
+        Me.SpellInfo.Name = "SpellInfo"
+        Me.SpellInfo.Size = New System.Drawing.Size(678, 120)
+        Me.SpellInfo.TabIndex = 17
+        Me.SpellInfo.Text = ""
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(713, 24)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(51, 20)
+        Me.Label18.TabIndex = 16
+        Me.Label18.Text = "Range"
+        '
         'Label17
         '
         Me.Label17.AutoSize = True
@@ -589,7 +608,7 @@ Partial Class GameForm
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(43, 20)
         Me.Label17.TabIndex = 8
-        Me.Label17.Text = "Nivel"
+        Me.Label17.Text = "Level"
         '
         'RangeFilter
         '
@@ -617,14 +636,14 @@ Partial Class GameForm
         Me.Label15.Text = "Name"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
-        'ListBox3
+        'SpellList
         '
-        Me.ListBox3.FormattingEnabled = True
-        Me.ListBox3.ItemHeight = 20
-        Me.ListBox3.Location = New System.Drawing.Point(91, 175)
-        Me.ListBox3.Name = "ListBox3"
-        Me.ListBox3.Size = New System.Drawing.Size(678, 224)
-        Me.ListBox3.TabIndex = 4
+        Me.SpellList.FormattingEnabled = True
+        Me.SpellList.ItemHeight = 20
+        Me.SpellList.Location = New System.Drawing.Point(92, 144)
+        Me.SpellList.Name = "SpellList"
+        Me.SpellList.Size = New System.Drawing.Size(678, 104)
+        Me.SpellList.TabIndex = 4
         '
         'Button5
         '
@@ -655,15 +674,6 @@ Partial Class GameForm
         Me.SpellName.Name = "SpellName"
         Me.SpellName.Size = New System.Drawing.Size(337, 27)
         Me.SpellName.TabIndex = 0
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(713, 24)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(51, 20)
-        Me.Label18.TabIndex = 16
-        Me.Label18.Text = "Range"
         '
         'GameForm
         '
@@ -740,7 +750,7 @@ Partial Class GameForm
     Friend WithEvents RangeFilter As TextBox
     Friend WithEvents Label16 As Label
     Friend WithEvents Label15 As Label
-    Friend WithEvents ListBox3 As ListBox
+    Friend WithEvents SpellList As ListBox
     Friend WithEvents Button5 As Button
     Friend WithEvents LevelFilter As TextBox
     Friend WithEvents ClassFilter As TextBox
@@ -749,4 +759,5 @@ Partial Class GameForm
     Friend WithEvents Button6 As Button
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
+    Friend WithEvents SpellInfo As RichTextBox
 End Class

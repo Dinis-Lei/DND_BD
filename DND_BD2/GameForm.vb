@@ -424,6 +424,7 @@ Public Class GameForm
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        PlayerCharacters.Items.Clear()
         Dim id
         Try
             id = Convert.ToInt32(PlayerID.Text)
@@ -543,32 +544,66 @@ Public Class GameForm
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        SpellList.Items.Clear()
         Dim sName = Nothing
         Dim sClass = Nothing
         Dim sNivel = Nothing
         Dim sRange = Nothing
 
+        CMD.CommandText = "filterSpells"
+        CMD.CommandType = CommandType.StoredProcedure
+        CMD.Parameters.Clear()
         If (String.Compare(SpellName.Text, "") <> 0) Then
             sName = SpellName.Text
+            CMD.Parameters.Add("@spellName", SqlDbType.VarChar, 15).Value = sName
+        Else
+            CMD.Parameters.Add("@spellName", SqlDbType.VarChar, 15).Value = DBNull.Value
         End If
+
 
         If (String.Compare(ClassFilter.Text, "") <> 0) Then
             sClass = ClassFilter.Text
+            CMD.Parameters.Add("@nomeClasse", SqlDbType.VarChar, 15).Value = sClass
+        Else
+            CMD.Parameters.Add("@nomeClasse", SqlDbType.VarChar, 15).Value = DBNull.Value
         End If
 
         If (String.Compare(LevelFilter.Text, "") <> 0) Then
             sNivel = Convert.ToInt32(LevelFilter.Text)
+            CMD.Parameters.Add("@nivel", SqlDbType.Int).Value = Convert.ToInt32(sNivel)
+        Else
+            CMD.Parameters.Add("@nivel", SqlDbType.Int).Value = DBNull.Value
         End If
 
         If (String.Compare(RangeFilter.Text, "") <> 0) Then
             sRange = Convert.ToInt32(RangeFilter.Text)
+            CMD.Parameters.Add("@range", SqlDbType.Int).Value = Convert.ToInt32(sRange)
+        Else
+            CMD.Parameters.Add("@range", SqlDbType.Int).Value = DBNull.Value
         End If
 
+        CN.Open()
+        Dim RDR As SqlDataReader
+        RDR = CMD.ExecuteReader()
+        While RDR.Read
+            Dim spell As New Spell
+            spell.Name = RDR.Item("spellName")
+            spell.ID = RDR.Item("idSpell")
+            spell.Level = RDR.Item("nivel")
+            spell.Range = RDR.Item("range")
+            spell.TypeOfDamage = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("tipoDano")), "", RDR.Item("tipoDano")))
+            spell.Classe = RDR.Item("classe")
+            spell.FlavorText = Convert.ToString(IIf(RDR.IsDBNull(RDR.GetOrdinal("flavorText")), "", RDR.Item("flavorText")))
 
-        CMD.CommandText = "filterSpells"
-            CMD.CommandType = CommandType.StoredProcedure
-            CMD.Parameters.Clear()
-            CMD.Parameters.Add("@nomeClasse", SqlDbType.Int).Value = Convert.ToInt32(c.ID)
+            SpellList.Items.Add(spell)
+        End While
+
+        CN.Close()
     End Sub
+
+    Private Sub SpellList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SpellList.SelectedIndexChanged
+        SpellInfo.Text = SpellList.SelectedItem.getExpandedText()
+    End Sub
+
 End Class
 
