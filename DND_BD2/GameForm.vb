@@ -38,7 +38,7 @@ Public Class GameForm
         'Char Tab
         NormalInterface()
 
-        '' Change this line for our database
+        '' Change this line for your database
         CN = New SqlConnection("Server = tcp:mednat.ieeta.pt\SQLSERVER,8101; Database =  p4g5 ; UID = p4g5; PWD =  ola123adeus321LEI")
 
         CMD = New SqlCommand
@@ -276,6 +276,9 @@ Public Class GameForm
         ElseIf editing Then
             EditGame()
         End If
+        adding = False
+        deleting = False
+        editing = False
     End Sub
 
     Private Function SaveGame()
